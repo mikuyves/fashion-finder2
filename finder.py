@@ -1,13 +1,18 @@
 import time
 import random
 import re
+import  os
 from urllib.parse import urlparse
 
 import requests
 from lxml import html
+from gmail import GMail, Message
 
 from data.rules import website_rules
 from data.useragent import USER_AGENTS
+# Define your own BASEPATH which is a ABS-PATH for saving the data.
+from secret import BASEPATH
+import send_gmail
 
 
 user_agent = USER_AGENTS[random.randint(0, 10)]
@@ -70,6 +75,22 @@ class Fashion(object):
         urls = self.validate_urls(urls)
         return urls
 
+    @property
+    def fullname(self):
+        return ' - '.join([self.brand, self.title])
+
+    @property
+    def filename_base(self):
+        return '.'.join(' '.join([self.brand, self.title]).split())
+
+    @property
+    def folder_path(self):
+        return os.path.join(BASEPATH, self.filename_base)
+
+    @property
+    def has_zh_maybe(self):
+        return self.rule.get('has_zh_maybe')
+
     # 中文属性。
     @property
     def title_zh(self):
@@ -92,28 +113,41 @@ class Fashion(object):
         return self.parse_field('text_css.details', output='paragraph', lang='zh')
 
     def parse_css(self, full_css, lang):
-        css, prop = full_css.split('::')
-        if not lang or lang == 'en':
-            results = self.doc.cssselect(css)
-        elif lang == 'zh':
-            results = self.doc_zh.cssselect(css)
+        '''Returns ::list:: Raw results of css selector.'''
+        # Handle NoneType.
+        if not full_css:
+            return []
+        # Handle `or` condition.
+        f_css_list = full_css.split(', ')
+        for f_css in f_css_list:
+            css, prop = f_css.split('::')
 
-        if prop == 'text':
-            return [r.text for r in results]
-        elif 'attr' in prop:
-            prop_value = prop[5:-1]
-            return [r.attrib.get(prop_value) for r in results]
+            # Handle language.
+            if not lang or lang == 'en':
+                results = self.doc.cssselect(css)
+            elif lang == 'zh':
+                results = self.doc_zh.cssselect(css)
+
+            # Skip no result condition.
+            if results == []:
+                continue
+
+            if prop == 'text':
+                return [r.text for r in results]
+            elif 'attr' in prop:
+                prop_value = prop[5:-1]
+                return [r.attrib.get(prop_value) for r in results]
 
     def parse_raw(self, results, output='text'):
         if results == []:
-            return None
+            return ''
 
         if output == 'text':
-            return ' '.join(''.join(results).split()) if results else None
+            return ' '.join(''.join(results).split()) if results else ''
         elif output == 'paragraph':
-            return '\n'.join([i.strip() for i in results if i.strip()]) if results else None
+            return '\n'.join([i.strip() for i in results if i and i.strip()]) if results else ''
         elif output == 'list':
-            return [i.strip() for i in results if i.strip()] if results else None
+            return [i.strip() for i in results if i and i.strip()] if results else []
 
     def parse_field(self, key, output='text', lang='en'):
         if '.' in key:
@@ -157,6 +191,61 @@ class Fashion(object):
 
         return valid_urls
 
+    def download(self):
+        urls = self.photo_urls
+        if urls:
+            print('\nDownloading photos of %s from %s' % (self.fullname, self.domain))
+            print('\nTotal: %d' % len(urls))
+            # Some website such as matchesfashion.com should be requested with
+            # User-Agent to download photos.
+            for num, url in enumerate(urls):
+                try:
+                    photo = get_html_doc(url)[0]
+                except Exception as e:
+                    print(e)
+                finally:
+                    time.sleep(5)
+                    if photo.ok:
+                        filename = '%s_%d.jpg' % (self.filename_base, num)
+                        filepath = os.path.join(self.folder_path, filename)
+                        with open(filepath, 'wb') as f:
+                            f.write(photo.content)
+        else:
+            print('No photo in this item.')
+
+    def save_file(self):
+        filename = os.path.join(self.folder_path, '%s.txt' % self.filename_base)
+        with open(filename, 'w') as f:
+            f.write(self.fullname)
+            f.write('\n\n')
+            f.write(self.desc)
+            f.write('\n\n')
+            f.write(self.details)
+            f.write('\n\n')
+            f.write(self.url)
+            if self.has_zh_maybe:
+                f.write('\n\n')
+                f.write(self.title_zh)
+                f.write(self.desc_zh)
+                f.write(self.details_zh)
+
+
+    def make_tag_file(self):
+        # Make a file for Gmail.
+        filename = os.path.join(self.folder_path, 'ready_to_send.gml')
+        with open(filename, 'w') as f:
+            f.write(self.fullname)
+
+    def save(self):
+        os.mkdir(self.folder_path)
+        self.download()
+        self.save_file()
+        self.make_tag_file()
+
+    def run(self):
+        self.parse()
+        self.save()
+
 
 def get_html_doc(url):
     time.sleep(0.9)
@@ -182,3 +271,9 @@ def print_result(res):
     print('Title: %s' % res.title_zh)
     print('Desc: %s' % res.desc_zh)
     print('Details: %s' % res.details_zh)
+
+
+if __name__ == '__main__':
+    url = input('Enter URL:')
+    f = Fashion(url)
+    f.run()
