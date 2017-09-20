@@ -1,6 +1,7 @@
 Web scraping using Python: requests and lxml
 ===
 
+[https://data-lessons.github.io/library-webscraping/04-lxml/]
 
 ### Traversing elements in a page with lxml
 The following illustrates loads the response HTML into a tree of elements, and illustrates the `xpath` and `cssselect` methods provided on an ElementTree (and each Element thereof), as well as other tree traversal. Running the following code:
