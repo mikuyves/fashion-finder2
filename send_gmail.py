@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-#!/usr/bin/env python
+from gevent import monkey; monkey.patch_all()
+import gevent
 import os
 import re
 
@@ -58,7 +58,8 @@ def main():
                 attachments.append(attachment)
 
             print('Sending %s' % path)
-            sendmail(title, text, attachments)
+            gevent.spawn(sendmail, title, text, attachments).join()
+            gevent.sleep(0)
             os.rename(
                 os.path.join(path, 'ready_to_send.gml'),
                 os.path.join(path, 'sent.gml')

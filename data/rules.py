@@ -64,7 +64,7 @@ if ($(".container-title .sale") != 0){
             'details': '.product-detail-dl dd::text',
         },
         'photo_urls_css': '.sliderProduct-link img::attr(data-fullsrc)',
-        'screenshot_js': '''window.scrollBy(0, 50);
+        'screenshot_js': '''
 if ($(".js-discount-label").html().replace(/(^\W\s*)|(\W\s*$)/g, '').length != 0){
     $(".js-discount-label").html($(".js-price-without-promotion").html());
     $(".js-price-without-promotion").remove();

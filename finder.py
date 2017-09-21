@@ -268,9 +268,13 @@ class Fashion(object):
             gevent.spawn(self.get_screenshot),
             gevent.spawn(self.save_file),
             gevent.spawn(self.make_tag_file)
-        ], timeout=10)
+        ], timeout=120)
 
     def run(self):
+        if not self.rule:
+            print('No rule fitting the URL: %s.' % self.url)
+            print('Pleasing add rule for %s later.' % self.domain)
+            return
         self.parse()
         self.save()
 
