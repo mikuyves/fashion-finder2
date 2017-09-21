@@ -1,3 +1,5 @@
+from gevent import monkey; monkey.patch_all()
+import gevent
 import time
 import random
 import re
@@ -209,7 +211,7 @@ class Fashion(object):
                 except Exception as e:
                     print(e)
                 finally:
-                    time.sleep(5)
+                    gevent.sleep(1)
                     if photo.ok:
                         filename = '%s_%d.jpg' % (self.filename_base, num)
                         abs_filename = os.path.join(self.folder_path, filename)
@@ -261,10 +263,12 @@ class Fashion(object):
 
     def save(self):
         os.mkdir(self.folder_path)
-        self.download()
-        self.get_screenshot()
-        self.save_file()
-        self.make_tag_file()
+        gevent.joinall([
+            gevent.spawn(self.download),
+            gevent.spawn(self.get_screenshot),
+            gevent.spawn(self.save_file),
+            gevent.spawn(self.make_tag_file)
+        ], timeout=10)
 
     def run(self):
         self.parse()
