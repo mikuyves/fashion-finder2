@@ -3,7 +3,7 @@ from PIL import Image
 
 
 class ScreenShot(object):
-    def __init__(self, url, js, filename):
+    def __init__(self, url, filename, js=None):
         self.url = url
         self.js = js
         self.filename = filename
@@ -11,14 +11,16 @@ class ScreenShot(object):
     def shot(self):
         browser = webdriver.PhantomJS()
         browser.get(self.url)
-        browser.execute_script(self.js)
-        browser.set_window_size(1680, 1080)
+        browser.set_window_size(1280, 1080)
+        # if self.js:
+        #     print('Running JS script...')
+        #     browser.execute_script(self.js)
         browser.save_screenshot(self.filename)
 
     def crop(self):
         img = Image.open(self.filename)
         x = img.size[0]
-        y = 1000
+        y = 900
         points = (0, 0, x, y)
         img = img.crop(points)
         img.save(self.filename)

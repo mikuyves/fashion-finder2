@@ -11,6 +11,7 @@ from gmail import GMail, Message
 from data.rules import website_rules
 from data.useragent import USER_AGENTS
 from screenshot import ScreenShot
+from utils import hack_zh
 # Define your own BASEPATH which is a ABS-PATH for saving the data.
 from secret import BASEPATH
 import send_gmail
@@ -33,12 +34,15 @@ class Fashion(object):
         else:
             print('Parsing %s' % self.domain)
             self.response, self.doc = get_html_doc(self.url)
-            en2zh = self.rule.get('en2zh')
-            if en2zh:
+            if self.url_zh:
                 print('正在分析 %s 中文网站...' % self.domain)
-                self.url_zh = en2zh(self.url)
                 self.response_zh, self.doc_zh = get_html_doc(self.url_zh)
             self.is_parsed = True
+
+    @property
+    def url_zh(self):
+        en2zh = self.rule.get('en2zh')
+        return en2zh(self.url) if en2zh else None
 
     @property
     def brand(self):
@@ -226,10 +230,20 @@ class Fashion(object):
             f.write(self.url)
             if self.has_zh_maybe:
                 f.write('\n\n')
-                f.write(self.title_zh)
-                f.write(self.desc_zh)
-                f.write(self.details_zh)
-
+                try:
+                    f.write(self.title_zh)
+                    f.write('\n\n')
+                    f.write(self.desc_zh)
+                    f.write('\n\n')
+                    f.write(self.details_zh)
+                except UnicodeEncodeError:
+                    f.write(hack_zh(self.title_zh))
+                    f.write('\n\n')
+                    f.write(hack_zh(self.desc_zh))
+                    f.write('\n\n')
+                    f.write(hack_zh(self.details_zh))
+                f.write('\n\n')
+                f.write(self.url_zh)
 
     def make_tag_file(self):
         # Make a file for Gmail.
@@ -239,14 +253,11 @@ class Fashion(object):
 
     def get_screenshot(self):
         js = self.rule.get('screenshot_js')
-        if js:
-            filename = self.filename_base + '_shot.png'
-            abs_filename = os.path.join(self.folder_path, filename)
-            shot = ScreenShot(self.url, js, abs_filename)
-            shot.run()
-            return abs_filename
-        else:
-            return
+        filename = self.filename_base + '_shot.png'
+        abs_filename = os.path.join(self.folder_path, filename)
+        shot = ScreenShot(self.url, abs_filename, js)
+        shot.run()
+        return abs_filename
 
     def save(self):
         os.mkdir(self.folder_path)
