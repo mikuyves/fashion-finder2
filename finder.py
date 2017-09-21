@@ -10,6 +10,7 @@ from gmail import GMail, Message
 
 from data.rules import website_rules
 from data.useragent import USER_AGENTS
+from screenshot import ScreenShot
 # Define your own BASEPATH which is a ABS-PATH for saving the data.
 from secret import BASEPATH
 import send_gmail
@@ -207,8 +208,8 @@ class Fashion(object):
                     time.sleep(5)
                     if photo.ok:
                         filename = '%s_%d.jpg' % (self.filename_base, num)
-                        filepath = os.path.join(self.folder_path, filename)
-                        with open(filepath, 'wb') as f:
+                        abs_filename = os.path.join(self.folder_path, filename)
+                        with open(abs_filename, 'wb') as f:
                             f.write(photo.content)
         else:
             print('No photo in this item.')
@@ -236,9 +237,21 @@ class Fashion(object):
         with open(filename, 'w') as f:
             f.write(self.fullname)
 
+    def get_screenshot(self):
+        js = self.rule.get('screenshot_js')
+        if js:
+            filename = self.filename_base + '_shot.png'
+            abs_filename = os.path.join(self.folder_path, filename)
+            shot = ScreenShot(self.url, js, abs_filename)
+            shot.run()
+            return abs_filename
+        else:
+            return
+
     def save(self):
         os.mkdir(self.folder_path)
         self.download()
+        self.get_screenshot()
         self.save_file()
         self.make_tag_file()
 

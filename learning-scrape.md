@@ -49,3 +49,45 @@ This code begins by building a tree of Elements from the HTML using `lxml.html.f
 In the above example, we extract the first (and only) <title> element from the page, show its text, etc., and do the same for its parent, the <head> node. When we print the text of that parent node, we see that it consists of two blank lines. Why?
 
 Apart from basic features of Python, these are all the tools we should need.
+
+
+### PhantomJS 截图
+```python
+import base64
+import sys
+import pyocr
+from StringIO import StringIO
+from selenium import webdriver
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
+from PIL import Image
+
+driver = webdriver.Remote(
+    command_executor='http://10.10.10.140:8910',
+    desired_capabilities=DesiredCapabilities.PHANTOMJS)
+
+driver.get('目标网址')
+
+
+# 获取元素位置
+element = driver.find_element_by_class_name('conttxt')
+location = element.location
+size = element.size
+
+# 计算出元素位置图像坐标
+img = Image.open(StringIO(base64.decodestring(driver.get_screenshot_as_base64())))
+driver.quit()
+left = location['x']
+top = location['y']
+right = location['x'] + size['width']
+bottom = location['y'] + size['height']
+img = img.crop((int(left), int(top), int(right), int(bottom)))
+# img.save('screenshot.png') 是否保存图像
+
+
+# 利用pyocr库 推荐引擎tesseract进行图像识别
+tools = pyocr.get_available_tools()[:]
+print tools[0].image_to_string(img,lang='chi_sim')
+
+# from: https://www.cplusplus.me/2624.html
+```
+
