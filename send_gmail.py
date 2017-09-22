@@ -1,5 +1,4 @@
-from gevent import monkey; monkey.patch_all()
-import gevent
+import asyncio
 import os
 import re
 
@@ -27,7 +26,8 @@ def get_content(path, filenames, suffix):
     return file_content
 
 
-def sendmail(title, text, attachments):
+async def sendmail(title, text, attachments):
+    print('Sending {}'.format(title))
     gmail = GMail(GMAIL_ACCOUNT, GMAIL_PASSWD)
     msg = Message(title,
                     to=mail_to,
@@ -36,9 +36,40 @@ def sendmail(title, text, attachments):
     )
     gmail.send(msg)
     gmail.close()
+    print('Send.')
 
 
-def main():
+class Email():
+    def __init__(self, path, title, text, attachments):
+        self.path = path
+        self.title = title
+        self.text = text
+        self.attachments = attachments
+
+    async def send(self):
+        gmail = GMail(GMAIL_ACCOUNT, GMAIL_PASSWD)
+        msg = Message(self.title,
+                      to=mail_to,
+                      text=self.text,
+                      attachments=self.attachments
+                      )
+        gmail.send(msg)
+        gmail.close()
+
+    async def asend(self):
+        print('Sending {}'.format(self.title))
+        await self.send()
+        print('Ok. Sent {}'.format(self.title))
+
+    def done(self):
+        os.rename(
+            os.path.join(self.path, 'ready_to_send.gml'),
+            os.path.join(self.path, 'sent.gml')
+        )
+
+
+def load_emails():
+    emails = []
     folders = checkfolder()
     for folder in folders:
         for path, sub, filenames in os.walk(folder):
@@ -57,15 +88,20 @@ def main():
                 attachment = os.path.join(path, filename)
                 attachments.append(attachment)
 
-            print('Sending %s' % path)
-            gevent.spawn(sendmail, title, text, attachments).join()
-            gevent.sleep(0)
-            os.rename(
-                os.path.join(path, 'ready_to_send.gml'),
-                os.path.join(path, 'sent.gml')
-            )
-            print('DONE!')
+            email = Email(path, title, text, attachments)
+            emails.append(email)
+
+    return emails
+
+
+async def main():
+    emails = load_emails()
+    coroutines = [email.asend() for email in emails]
+    tasks = [asyncio.ensure_future(coro) for coro in coroutines]
+    await asyncio.wait(tasks)
 
 
 if __name__ == '__main__':
-    main()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
+    print('DONE!')

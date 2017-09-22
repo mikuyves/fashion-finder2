@@ -1,3 +1,6 @@
+import asyncio
+import time
+
 from selenium import webdriver
 from PIL import Image
 
@@ -43,3 +46,26 @@ def fill_white(filename):
     p.save('%s_white.png' % filename.split('.')[0])
 
 
+async def sleep():
+    await time.sleep(1)
+
+
+async def get_sleep(n):
+    print('Start {}'.format(n))
+    await sleep()
+    print('End {}'.format(n))
+
+
+
+coro1 = get_sleep(1)
+coro2 = get_sleep(2)
+coro3 = get_sleep(3)
+
+tasks = [
+    asyncio.ensure_future(coro1),
+    asyncio.ensure_future(coro2),
+    asyncio.ensure_future(coro3)
+]
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(asyncio.wait(tasks))
