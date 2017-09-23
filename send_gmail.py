@@ -1,6 +1,7 @@
 import asyncio
 import os
 import re
+from concurrent.futures import ThreadPoolExecutor
 
 from gmail import GMail, Message
 
@@ -34,7 +35,7 @@ async def sendmail(title, text, attachments):
                     text=text,
                     attachments=attachments
     )
-    gmail.send(msg)
+    await gmail.send(msg)
     gmail.close()
     print('Send.')
 
@@ -46,7 +47,8 @@ class Email():
         self.text = text
         self.attachments = attachments
 
-    async def send(self):
+    def send(self):
+        print('Sending {}'.format(self.title))
         gmail = GMail(GMAIL_ACCOUNT, GMAIL_PASSWD)
         msg = Message(self.title,
                       to=mail_to,
@@ -55,6 +57,7 @@ class Email():
                       )
         gmail.send(msg)
         gmail.close()
+        print('Ok. Sent {}'.format(self.title))
 
     async def asend(self):
         print('Sending {}'.format(self.title))
@@ -100,8 +103,16 @@ async def main():
     tasks = [asyncio.ensure_future(coro) for coro in coroutines]
     await asyncio.wait(tasks)
 
+async def run_tasks(executor):
+    loop = asyncio.get_event_loop()
+
+    emails = load_emails()
+    blocking_tasks = [loop.run_in_executor(executor, email.send)for email in emails]
+    await asyncio.wait(blocking_tasks)
+
 
 if __name__ == '__main__':
+    executor = ThreadPoolExecutor(3)
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    loop.run_until_complete(run_tasks(executor))
     print('DONE!')
