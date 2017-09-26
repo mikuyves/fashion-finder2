@@ -36,6 +36,10 @@ class Fashion(object):
         else:
             print('Parsing %s' % self.domain)
             self.response, self.doc = get_html_doc(self.url)
+            if self.response.status_code == 403:
+                print('{} banned you!'.format(self.domain))
+                self.is_parsed = False
+                return
             if self.url_zh:
                 print('正在分析 %s 中文网站...' % self.domain)
                 self.response_zh, self.doc_zh = get_html_doc(self.url_zh)
@@ -150,7 +154,8 @@ class Fashion(object):
             return ''
 
         if output == 'text':
-            return ' '.join(''.join(results).split()) if results else ''
+            # return ' '.join(''.join(results).split()) if results else ''
+            return ' '.join([i.strip() for i in results if i and i.strip()]) if results else ''
         elif output == 'paragraph':
             return '\n'.join([i.strip() for i in results if i and i.strip()]) if results else ''
         elif output == 'list':
@@ -262,6 +267,8 @@ class Fashion(object):
         return abs_filename
 
     def save(self):
+        if not self.is_parsed:
+            return
         os.mkdir(self.folder_path)
         gevent.joinall([
             gevent.spawn(self.download),
