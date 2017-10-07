@@ -107,9 +107,9 @@ async def run_tasks(executor):
     loop = asyncio.get_event_loop()
 
     emails = load_emails()
-    blocking_tasks = [loop.run_in_executor(executor, email.send)for email in emails]
+    blocking_tasks = [loop.run_in_executor(executor, email.send) for email in emails]
     await asyncio.wait(blocking_tasks)
-
+    [email.done() for email in emails]
 
 if __name__ == '__main__':
     executor = ThreadPoolExecutor(3)

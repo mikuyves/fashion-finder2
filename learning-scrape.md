@@ -91,3 +91,4 @@ print tools[0].image_to_string(img,lang='chi_sim')
 # from: https://www.cplusplus.me/2624.html
 ```
 
+

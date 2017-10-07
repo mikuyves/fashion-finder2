@@ -1,5 +1,6 @@
 import asyncio
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 from selenium import webdriver
 from PIL import Image
@@ -81,9 +82,10 @@ Time: 3.006171941757202 sec.
 ```
 '''
 
-
-async def a_sleep():
-    await asyncio.sleep(1)
+def a_sleep(n):
+    print('Start {}'.format(n))
+    time.sleep(1)
+    print('End {}'.format(n))
 ''' Result:
 ```bash
 Start 1  \
@@ -97,7 +99,7 @@ Time: 1.0080575942993164 sec.
 '''
 
 async def sleep():
-    time.sleep(1)
+    await time.sleep(1)
 ''' Result:
 ```bash
 Start 1
@@ -113,8 +115,9 @@ Time: 3.008172035217285 sec.
 
 async def get_sleep(n):
     print('Start {}'.format(n))
+    await time.sleep(1)
     # await y_sleep()
-    await yf_sleep()
+    # await yf_sleep()
     # await o_sleep()
     # await a_sleep()
     # await sleep()
@@ -132,10 +135,21 @@ start = now()
 #     asyncio.ensure_future(coro2),
 #     asyncio.ensure_future(coro3)
 # ]
-
+#
 tasks = [asyncio.ensure_future(get_sleep(i)) for i in range(1,4)]
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(asyncio.wait(tasks))
+
+# async def run_tasks(executor):
+#     loop = asyncio.get_event_loop()
+#
+#     blocking_tasks = [loop.run_in_executor(executor, time.sleep, i)  for i in range(4)]
+#     await asyncio.wait(blocking_tasks)
+#
+# executor = ThreadPoolExecutor(10)
+# loop = asyncio.get_event_loop()
+# loop.run_until_complete(run_tasks(executor))
+
 
 print('Time: {} sec.'.format(now() - start))

@@ -94,9 +94,17 @@ class Fashion(object):
     def filename_base(self):
         return '.'.join(' '.join([self.brand, self.title]).split())
 
+    @filename_base.setter
+    def filename_base(self, value):
+        return value
+
     @property
     def folder_path(self):
         return os.path.join(BASEPATH, self.filename_base)
+
+    @folder_path.setter
+    def folder_path(self, value):
+        return value
 
     @property
     def has_zh_maybe(self):
@@ -269,7 +277,15 @@ class Fashion(object):
     def save(self):
         if not self.is_parsed:
             return
-        os.mkdir(self.folder_path)
+        try:
+            os.mkdir(self.folder_path)
+        except FileExistsError:
+            answer = input('Folder {} already exists, would you like to add another folder? (y/n)')
+            if answer.lower() == 'y':
+                self.folder_path = self.folder_path + '(2)'
+                os.mkdir(self.folder_path)
+            else:
+                return
         gevent.joinall([
             gevent.spawn(self.download),
             gevent.spawn(self.get_screenshot),
@@ -281,6 +297,8 @@ class Fashion(object):
         if not self.rule:
             print('No rule fitting the URL: %s.' % self.url)
             print('Pleasing add rule for %s later.' % self.domain)
+            with open('todo_add_website_rule.txt', 'a') as f:
+                f.write(self.url)
             return
         self.parse()
         self.save()

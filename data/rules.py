@@ -833,6 +833,19 @@ if ($('.pdp-price__hilite').length != 0){
         'photo_urls_re': '\S+.jpg$',
         'screenshot_js': ''';''',
     },
+
+    # 2017-09-25
+    'www.theory.com': {
+        'has_zh_maybe': False,
+        'type': 'Official',
+        'brand': u'THEORY',
+        'text_css': {
+            'title': 'h1[itemprop=name]::text',
+            'desc': 'p.pdp-details-info::text',
+            'details': 'li.pdp-details-info::text',
+        },
+        'photo_urls_css': 'source[media*="1201px"]::attr(srcset)',
+    }
 }
 
 ###############################################################################

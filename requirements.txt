@@ -5,3 +5,4 @@ gmail==0.6.3
 selenium==3.5.0
 Pillow==4.2.1
 gevent==1.2.2
+flickrapi==2.3
