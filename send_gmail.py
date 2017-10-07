@@ -57,7 +57,6 @@ def load_emails():
 
         email = Email(path, title, text, attachments)
         emails.append(email)
-        print('{title}\n{text}\n{attachments}'.format(**locals()))
 
     return emails
 
