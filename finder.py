@@ -296,7 +296,7 @@ class Fashion(object):
     def run(self):
         if not self.rule:
             print('No rule fitting the URL: %s.' % self.url)
-            print('Pleasing add rule for %s later.' % self.domain)
+            print('Pleasing add rule for %s later.\n' % self.domain)
             with open('todo_add_website_rule.txt', 'a') as f:
                 f.write(self.url)
             return
