@@ -334,13 +334,16 @@ def print_result(res):
     print('Details: %s' % res.details_zh)
 
 
+def validate_url(url):
+    parsed_url = urlparse(url)
+    return parsed_url.netloc and parsed_url.scheme
+
+
 if __name__ == '__main__':
     prompt = 'Enter URL: '
     url = input(prompt)
-    parsed_url = urlparse(url)
-    while not parsed_url.netloc or not parsed_url.scheme:
-        url = input('Not valid URL. Please try again.\n%s' % prompt)
-        parsed_url = urlparse(url)
+    while not validate_url(url):
+        url = input('Not valid URL. Please try again.\n%s\n' % prompt)
 
     f = Fashion(url)
     f.run()
