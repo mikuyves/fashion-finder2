@@ -147,18 +147,18 @@ class GoogleImage(object):
 
 
 # 元素截图。
-def shot_and_crop_element(browser, filename='elementshot.jpg'):
-    browser.save_screenshot('elementshot.jpg')
-    img_location = captcha_tag.location
-    img_size = captcha_tag.size
-    img_rangle = (
-        int(img_location['x']),
-        int(img_location['y']),
-        int(img_location['x']) + img_size['width'],
-        int(img_location['y']) + img_size['height'],
-    )
-    img = Image.open('elementshot.jpg')
-    img = img.crop(img_rangle)
-    img.save('elementshot.jpg')
-    return img
+# def shot_and_crop_element(browser, filename='elementshot.jpg'):
+#     browser.save_screenshot('elementshot.jpg')
+#     img_location = captcha_tag.location
+#     img_size = captcha_tag.size
+#     img_rangle = (
+#         int(img_location['x']),
+#         int(img_location['y']),
+#         int(img_location['x']) + img_size['width'],
+#         int(img_location['y']) + img_size['height'],
+#     )
+#     img = Image.open('elementshot.jpg')
+#     img = img.crop(img_rangle)
+#     img.save('elementshot.jpg')
+#     return img
 
