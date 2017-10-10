@@ -38,6 +38,8 @@ class Fashion(object):
             self.response, self.doc = get_html_doc(self.url)
             if self.response.status_code == 403:
                 print('{} banned you!'.format(self.domain))
+                with open('todo_add_website_rule.txt', 'a') as f:
+                    f.write('\n[BAN] - <website> - %s\n' % self.url)
                 self.is_parsed = False
                 return
             if self.url_zh:
@@ -232,6 +234,8 @@ class Fashion(object):
                             f.write(photo.content)
         else:
             print('No photo in this item.')
+            with open('todo_add_website_rule.txt', 'a') as f:
+                f.write('\n[IMPROVE] - <image> - %s\n' % self.url)
 
     def save_file(self):
         filename = os.path.join(self.folder_path, '%s.txt' % self.filename_base)
@@ -298,7 +302,7 @@ class Fashion(object):
             print('No rule fitting the URL: %s.' % self.url)
             print('Pleasing add rule for %s later.\n' % self.domain)
             with open('todo_add_website_rule.txt', 'a') as f:
-                f.write(self.url)
+                f.write('\n[ADD] - <website> - %s\n' % self.url)
             return
         self.parse()
         self.save()
@@ -331,6 +335,12 @@ def print_result(res):
 
 
 if __name__ == '__main__':
-    url = input('Enter URL:')
+    prompt = 'Enter URL: '
+    url = input(prompt)
+    parsed_url = urlparse(url)
+    while not parsed_url.netloc or not parsed_url.scheme:
+        url = input('Not valid URL. Please try again.\n%s' % prompt)
+        parsed_url = urlparse(url)
+
     f = Fashion(url)
     f.run()
