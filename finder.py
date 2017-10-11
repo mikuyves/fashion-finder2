@@ -343,7 +343,11 @@ if __name__ == '__main__':
     prompt = 'Enter URL: '
     url = input(prompt)
     while not validate_url(url):
-        url = input('Not valid URL. Please try again.\n%s\n' % prompt)
+        url = input(
+'''
+Not valid URL. Please try again.
+{}
+'''.format(prompt))
 
     f = Fashion(url)
     f.run()
