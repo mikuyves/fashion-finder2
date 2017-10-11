@@ -208,6 +208,18 @@ if ($('.pdp-price__hilite').length != 0){
         'screenshot_js': ''';''',
     },
 
+    'www.lyst.com.au': {
+        'has_zh_maybe': False,
+        'type': 'Pool',
+        'brand': 'h1 div[itemprop=brand] a::text, h3 span[itemprop=brand] a::text',
+        'text_css': {
+            'title': 'h1 div[itemprop=name]::text, h1 span[itemprop=name]::text',
+            'desc': 'div[itemprop=description] p::text',
+            'details': None,
+        },
+        'photo_urls_css': '.image-gallery-thumbnail::attr(data-full-image-url), .image-gallery__carousel__scroll-wrapper__image a::attr(href)',
+        'screenshot_js': ''';''',
+    },
     'www.shopsplash.com': {
         'has_zh_maybe': False,
         'type': 'Official',
