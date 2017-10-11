@@ -5,6 +5,7 @@ import random
 import re
 import  os
 from urllib.parse import urlparse
+from functools import wraps
 
 import requests
 from lxml import html
@@ -20,6 +21,24 @@ import send_gmail
 
 
 user_agent = USER_AGENTS[random.randint(0, 10)]
+
+
+def check_parsed(func):
+    """装饰器。在对象运行此方法时，检查 is_parsed 是否为真，即对象是否已经对网站分析过。"""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        def check_none():
+            '''返回 None 的函数。'''
+            print('It has not been parsed.')
+            return
+        # 未做分析，直接返回。
+        if not args[0].is_parsed:
+            return check_none()
+        # 已经分析，返回实际方法。
+        else:
+            r = func(*args, **kwargs)
+            return r
+    return wrapper
 
 
 class Fashion(object):
@@ -53,35 +72,30 @@ class Fashion(object):
         return en2zh(self.url) if en2zh else None
 
     @property
+    @check_parsed
     def brand(self):
-        if not self.is_parsed:
-            return
         if self.rule.get('type') == 'Official':
             return self.rule.get('brand')
         return self.parse_field('brand')
 
     @property
+    @check_parsed
     def title(self):
-        if not self.is_parsed:
-            return
         return self.parse_field('text_css.title')
 
     @property
+    @check_parsed
     def desc(self):
-        if not self.is_parsed:
-            return
         return self.parse_field('text_css.desc')
 
     @property
+    @check_parsed
     def details(self):
-        if not self.is_parsed:
-            return
         return self.parse_field('text_css.details', output='paragraph')
 
     @property
+    @check_parsed
     def photo_urls(self):
-        if not self.is_parsed:
-            return
         urls = self.parse_field('photo_urls_css', output='list')
         urls = self.process_photo_with_re(urls)
         urls = self.process_photo_with_handler(urls)
@@ -129,9 +143,8 @@ class Fashion(object):
 
     # 中文属性。
     @property
+    @check_parsed
     def details_zh(self):
-        if not self.is_parsed:
-            return
         return self.parse_field('text_css.details', output='paragraph', lang='zh')
 
     def parse_css(self, full_css, lang):
@@ -279,9 +292,8 @@ class Fashion(object):
         shot.run()
         return abs_filename
 
+    @check_parsed
     def save(self):
-        if not self.is_parsed:
-            return
         try:
             os.mkdir(self.folder_path)
         except FileExistsError:
