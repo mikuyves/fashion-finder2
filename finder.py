@@ -94,7 +94,8 @@ class Fashion(object):
 
     @property
     def filename_base(self):
-        return '.'.join(' '.join([self.brand, self.title]).split())
+        filename = '.'.join(' '.join([self.brand, self.title]).split())
+        return re.sub(r"[/\ ,'|]", '_', filename)
 
     @filename_base.setter
     def filename_base(self, value):
