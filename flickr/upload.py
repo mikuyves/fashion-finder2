@@ -29,10 +29,16 @@ import data
 #     return obj
 
 
+# Flickr photo download URL, middle size.
+PHOTO_URL_FMT = 'https://farm{farm}.staticflickr.com/{server}/{id}_{secret}_z.jpg'
+
+
+
 class MyFlickr(object):
+    THE_NEW_PHOTOSET_ID = '72157676185110872'
 
     def __init__(self):
-        self.flickr = flickrapi.FlickrAPI(FLICKR_API_KEY, FLICKR_API_SECRET)
+        self.flickr = flickrapi.FlickrAPI(FLICKR_API_KEY, FLICKR_API_SECRET, format='parsed-json')
         self.authenticate()
 
     def authenticate(self):
@@ -52,11 +58,44 @@ class MyFlickr(object):
 
             # Get the verifier code from the user.
             # verifier = to_unicode_or_bust(raw_input='Verifier code: ')
+            verifier = input('Verifier code: ')
 
             # Trade the request token for an access token.
             self.flickr.get_access_token(verifier)
             if self.flickr.token_valid(perms=u'write'):
                 print('Authentication is OK.')
+
+    def _get_photo_url_by_id(self, photo_id):
+        self.flickr = flickrapi.FlickrAPI(FLICKR_API_KEY, FLICKR_API_SECRET, format='parsed-json')
+        photo_info = self.flickr.photos.getInfo(photo_id=photo_id).get('photo')
+        return PHOTO_URL_FMT.format(**photo_info)
+
+    def _get_photo_url_by_json(self, photo_json:dict):
+        """photo_json must have key as follow: farm, id, server, secret."""
+        return PHOTO_URL_FMT.format(**photo_json)
+
+    def _get_photoset_photos(self, photoset_id=THE_NEW_PHOTOSET_ID):
+        """Defaut to get the NEW photoset info."""
+        self.flickr = flickrapi.FlickrAPI(FLICKR_API_KEY, FLICKR_API_SECRET, format='parsed-json')
+        photoset_info = self.flickr.photosets.getPhotos(photoset_id=photoset_id)
+        photos = photoset_info['photoset']['photo']
+        photos.pop(0)  # The first photo is the label of the photoset.
+        return photos
+
+    # API.
+    def get_photo_urls_from_photoset(self):
+        photos = self._get_photoset_photos()
+        return [self._get_photo_url_by_json(p) for p in photos]
+
+    # API.
+    def clear_photoset(self, photoset_id=THE_NEW_PHOTOSET_ID, num:int=None):
+        photos = self._get_photoset_photos(photoset_id=photoset_id)
+        photo_ids = [p['id'] for p in photos]
+        if num:
+            photo_ids = photo_ids[:num]
+        photo_ids_str = ','.join(photo_ids)  # Flickr require a string with comma-delimited.
+        self.flickr.photosets.removePhotos(photoset_id=photoset_id, photo_ids=photo_ids_str)
+        print('Clear photoset.')
 
     # def start_upload(self):
     #     folders = []
