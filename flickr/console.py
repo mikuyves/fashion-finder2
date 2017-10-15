@@ -1,3 +1,5 @@
+import sys
+from pathlib import Path
 import os
 import re
 import json
@@ -14,6 +16,8 @@ from IPython import embed
 from secret import BASEPATH, FLICKR_API_KEY, FLICKR_API_SECRET
 import data
 
+path = Path().parent.parent
+sys.path.append(path.absolute())
 
 # logging.config.fileConfig(os.path.join(PROJECT_PATH, 'log.conf'))
 # logger = logging.getLogger('flickr')

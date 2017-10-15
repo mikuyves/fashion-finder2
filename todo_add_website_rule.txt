@@ -1,3 +1,10 @@
 https://www.endource.com/product/the-kooples-checked-coat/WZByAsnnfAABG1z3
 https://www.lyst.co.uk/clothing/toga-pulla-appliqued-cotton-sweater-gray/
 https://www.endource.com/product/max-mara-cotton-sweater/WZPu0snnfAAB62zc
+[ADD] - <website> - https://www.shopspring.com/products/54023890
+
+[ADD] - <website> - https://cn.maxmara.com/p-5016017906004-tavola-bronze
+
+[IMPROVE] - <image> - https://www.lyst.com/clothing/moncler-kerria-metallic-fur-collar-puffer-vest/
+
+[ADD] - <website> - https://world.maxmara.com/p-1016067306001-aurelia-camel

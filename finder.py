@@ -109,7 +109,11 @@ class Fashion(object):
     @property
     def filename_base(self):
         filename = '.'.join(' '.join([self.brand, self.title]).split())
-        return re.sub(r"[/\ ,'|]", '_', filename)
+        name = re.sub(r"[/\ ,'|]", '_', filename)
+        if not name:
+            return 'No name'
+        else:
+            return name
 
     @filename_base.setter
     def filename_base(self, value):
@@ -297,7 +301,9 @@ class Fashion(object):
         try:
             os.mkdir(self.folder_path)
         except FileExistsError:
-            answer = input('Folder {} already exists, would you like to add another folder? (y/n)')
+            answer = input(
+                'Folder {} already exists, would you like to add another folder? (y/n)'.format(self.folder_path)
+            )
             if answer.lower() == 'y':
                 self.folder_path = self.folder_path + '(2)'
                 os.mkdir(self.folder_path)
@@ -318,7 +324,10 @@ class Fashion(object):
                 f.write('\n[ADD] - <website> - %s\n' % self.url)
             return
         self.parse()
+        t0 = time.time()
         self.save()
+        elapsed = time.time() - t0
+        print('Used time: {} seconds.'.format(elapsed))
 
 
 def get_html_doc(url):
