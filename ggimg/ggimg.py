@@ -99,6 +99,9 @@ Size: {img_size}'''.format(**self.__dict__)
 
 
 class GoogleImage(object):
+    from collections import namedtuple
+    Result = namedtuple('Result', 'title url cite img_url img_size')
+
     def __init__(self, url=None):
 
         self.google_image = 'https://images.google.com/?gws_rd=ssl'
@@ -191,7 +194,8 @@ class GoogleImage(object):
             print('Only 1 page of results.')
 
     def _process_result(self):
-        self.results = list(set(self.results) | set(self.current_page_results))
+        _results = list(set(self.results) | set(self.current_page_results))
+        self.results = [GoogleImage.Result._make(r) for r in _results]
 
     def shot(self):
         self.browser.set_window_size(1280, 1500)
@@ -203,8 +207,8 @@ class GoogleImage(object):
         self.input_entry()
         self.change_lang()
         self._process_result()  # Parse page 1.
-        self.next_page()
-        self._process_result()  # Parse page 2.
+        # self.next_page()
+        # self._process_result()  # Parse page 2.
 
         print(self.results)
         # Run on server.
@@ -221,6 +225,6 @@ if __name__ == '__main__':
         results = g.results
         for result_num, result in enumerate(results, start=1):
             # filename format: {number}-{cite}-{size}
-            path = WORKPATH / str(url_num) / '{0}-{1}-{2}'.format(str(result_num), result[2], str(result[4]))
-            gr = GoogleResult(*result, path=path, sample_url=sample_url)
+            path = WORKPATH / str(url_num) / '{0:d}-{1}-{2:d}'.format(result_num, result.cite, result.img_size)
+            gr = GoogleResult(**result._asdict(), path=path, sample_url=sample_url)
             gr.run()
