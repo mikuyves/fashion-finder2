@@ -1,13 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
+from selenium.common.exceptions import NoSuchElementException
 from IPython import embed
 
-from secret import RETURN_PHONE
+from secret import vivian
 
 
 ECMS_URL = 'http://ecmsglobal.com/cn/'
-return_code = 'ECM015047582'
+return_code = input('请输入退运单号：').upper()
 
 
 # 打开浏览器，进入网址。
@@ -24,7 +25,7 @@ print('Switch to RETURN tag.')
 # 填写“退运运单号”和“手机号码”
 b.find_element_by_id('returnCode').send_keys(return_code)
 print('Input the Return Code.')
-b.find_element_by_id('returnPhone').send_keys(RETURN_PHONE)
+b.find_element_by_id('returnPhone').send_keys(vivian.phone)
 print('Input the Return Phone.')
 
 captcha_text = input('Enter CAPTCHA: ')
@@ -37,7 +38,8 @@ print('Jumping to the detail form...')
 new_window = b.window_handles[window_cnt]  # 弹出新页面。
 b.switch_to.window(new_window)  # 跳转到新页面。
 
-title = '易客满-客户验证'
+# title = '易客满-客户验证'
+title = '易客满-退货人信息'
 sec = 3
 try:
     WebDriverWait(b, sec).until(
@@ -48,10 +50,57 @@ except Exception as e:
 
 print('Get page of {}.'.format(b.title))
 
-embed()
-# TODO: Waiting for another Return Code to test.
+# 填写表单
+# 姓（中文）
+b.find_element_by_id('consigneeFirstNameCn').send_keys(vivian.surname)
 
-# from selenium.webdriver.support.ui import Select
+# 名（中文）
+b.find_element_by_id('consigneeLasterNameCn').send_keys(vivian.givenname)
+
+# 联系电话
+b.find_element_by_id('consigneePhone').send_keys(vivian.phone)
+
+# 街道地址
+b.find_element_by_id('consigneeAddress').send_keys(vivian.address)
+
+# 邮编
+b.find_element_by_id('consigneeZipCode').send_keys(vivian.zipcode)
+
+# 身份证号码
+b.find_element_by_id('cnsigneeIdCard').send_keys(vivian.id)
+
+# 上传身份证照片
+b.find_element_by_id('IDCardCopy1').send_keys(vivian.idcard_fr)
+b.find_element_by_id('IDCardCopy2').send_keys(vivian.idcard_bk)
+
+# 选择省市县
+b.find_element_by_id('pcc-select').click()  # 点开选择界面
+b.find_element_by_xpath('//a[@skuid=440000]').click()  # 省
+b.find_element_by_xpath('//a[@skuid=440100]').click()  # 市
+b.find_element_by_xpath('//a[@skuid=440105]').click()  # 区/县
+
+# 勾选负责声明
+b.find_element_by_id('checky').click()
+
+# 验证码
+captcha_text = input('Enter CAPTCHA: ')
+b.find_element_by_id('verifyCode').send_keys(captcha_text)
+
+# 提交
+b.find_element_by_id('postme').click()
+
+# 验证是否成功。
+try:
+    success_icon = b.find_element_by_xpath('//img[@src="/brige/static/imgs/success.png"]')
+except NoSuchElementException:
+    pass
+else:
+    if success_icon.is_displayed():
+        print('Success!')
+        b.close()
+
+
+    # from selenium.webdriver.support.ui import Select
 #
 # # 将XPath为xpath的下拉框选择值为value的选项
 # Select(browser.find_element_by_xpath(xpath).select_by_value(value)
