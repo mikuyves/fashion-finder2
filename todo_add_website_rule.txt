@@ -8,3 +8,9 @@ https://www.endource.com/product/max-mara-cotton-sweater/WZPu0snnfAAB62zc
 [IMPROVE] - <image> - https://www.lyst.com/clothing/moncler-kerria-metallic-fur-collar-puffer-vest/
 
 [ADD] - <website> - https://world.maxmara.com/p-1016067306001-aurelia-camel
+
+[ADD] - <website> - https://www.lyst.co.uk/clothing/moncler-black-down-albizia-coat/
+
+[ADD] - <website> - https://www.lyst.co.uk/clothing/moncler-albizia-fur-trimmed-quilted-down-coat/
+
+[IMPROVE] - <image> - https://www.lyst.com/clothing/moncler-albizia-down-puffer-coat-with-genuine-fox-fur-trim-1/

@@ -16,29 +16,41 @@ def mulinput(prompt):
 
 
 brand = input('Enter brand:' ).strip()
-title = input('Enter brand:' ).strip()
+title = input('Enter title:' ).strip()
 fullname = ' - '.join((brand, title))
 desc = mulinput('Enter description: ')
-detail = mulinput('Enter detail: ')
+# detail = mulinput('Enter detail: ')
 url = input('Enter URL: ')
 
 base_filename = re.sub(r"[/\ ,']", '_', fullname)
 
-folderpath = os.path.join(BASEPATH, base_filename)
-os.mkdir(folderpath)
+folderpath = BASEPATH / base_filename
+
+num = 1
+while folderpath.exists():
+    print('Duplicated folder.')
+    if num == 1:
+        answer = input('Do you want to change the name of this folder automatically? (y/n): ')
+    if answer.lower() == 'y':
+        folderpath = BASEPATH / (base_filename + '(%s)' % num)
+    num += 2
+
+folderpath.mkdir()
+
 print('FOLDER: %s is created' % folderpath)
 
-with open(folderpath + '/ready_to_send.gml', 'w') as f:
-    f.write(fullname)
+email_filepath = folderpath / 'ready_to_send.gml'
+email_filepath.write_text(fullname, errors='replace')
 print('Made a gml file for sending emails.')
 
-with open(folderpath + '/%s.txt' % base_filename, 'w') as f:
+filepath = folderpath / ('%s.txt' % base_filename)
+filepath.write_text(title, errors='replace')
+
+with open(str(folderpath) + '/%s.txt' % base_filename, mode='a', errors='replace') as f:
     f.write(
 '''{fullname}
 
 {desc}
-
-{detail}
 
 {url}
 '''.format(**locals())
