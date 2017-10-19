@@ -78,5 +78,10 @@ async def run_tasks(executor):
 if __name__ == '__main__':
     executor = ThreadPoolExecutor(3)
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(run_tasks(executor))
-    print('DONE!')
+    try:
+        loop.run_until_complete(run_tasks(executor))
+    except ValueError as e:
+        print('No email to send.')
+        print(e)
+    else:
+        print('DONE!')
