@@ -4,12 +4,17 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import NoSuchElementException
 from IPython import embed
 
-from secret import vivian
+from secret import vivian, edison
 
 
 ECMS_URL = 'http://ecmsglobal.com/cn/'
 return_code = input('请输入退运单号：').upper()
 
+person_num = input('1-vivian, 2-edison: ')
+if person_num == '1' or not person_num:
+    person = vivian
+else:
+    person = edison
 
 # 打开浏览器，进入网址。
 b = webdriver.Chrome()
@@ -25,7 +30,7 @@ print('Switch to RETURN tag.')
 # 填写“退运运单号”和“手机号码”
 b.find_element_by_id('returnCode').send_keys(return_code)
 print('Input the Return Code.')
-b.find_element_by_id('returnPhone').send_keys(vivian.phone)
+b.find_element_by_id('returnPhone').send_keys(person.phone)
 print('Input the Return Phone.')
 
 captcha_text = input('Enter CAPTCHA: ')
@@ -52,26 +57,26 @@ print('Get page of {}.'.format(b.title))
 
 # 填写表单
 # 姓（中文）
-b.find_element_by_id('consigneeFirstNameCn').send_keys(vivian.surname)
+b.find_element_by_id('consigneeFirstNameCn').send_keys(person.surname)
 
 # 名（中文）
-b.find_element_by_id('consigneeLasterNameCn').send_keys(vivian.givenname)
+b.find_element_by_id('consigneeLasterNameCn').send_keys(person.givenname)
 
 # 联系电话
-b.find_element_by_id('consigneePhone').send_keys(vivian.phone)
+b.find_element_by_id('consigneePhone').send_keys(person.phone)
 
 # 街道地址
-b.find_element_by_id('consigneeAddress').send_keys(vivian.address)
+b.find_element_by_id('consigneeAddress').send_keys(person.address)
 
 # 邮编
-b.find_element_by_id('consigneeZipCode').send_keys(vivian.zipcode)
+b.find_element_by_id('consigneeZipCode').send_keys(person.zipcode)
 
 # 身份证号码
-b.find_element_by_id('cnsigneeIdCard').send_keys(vivian.id)
+b.find_element_by_id('cnsigneeIdCard').send_keys(person.id)
 
 # 上传身份证照片
-b.find_element_by_id('IDCardCopy1').send_keys(vivian.idcard_fr)
-b.find_element_by_id('IDCardCopy2').send_keys(vivian.idcard_bk)
+b.find_element_by_id('IDCardCopy1').send_keys(person.idcard_fr)
+b.find_element_by_id('IDCardCopy2').send_keys(person.idcard_bk)
 
 # 选择省市县
 b.find_element_by_id('pcc-select').click()  # 点开选择界面
