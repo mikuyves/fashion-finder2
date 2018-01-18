@@ -213,4 +213,4 @@ class MyFlickr(object):
 
 if __name__ == '__main__':
     f = MyFlickr()
-    # f.start_upload()
+    f.clear_photoset()
