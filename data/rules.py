@@ -54,7 +54,7 @@ if ($(".container-title .sale") != 0){
     },
 
     'www.farfetch.com': {
-        'has_zh_maybe': True,
+        'has_zh_maybe': False,
         'en2zh': lambda x: re.sub(r'.com', '.com/cn', x),
         'type': 'Retailer',
         'brand': '.detail-brand a::text',

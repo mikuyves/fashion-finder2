@@ -14,3 +14,41 @@ https://www.endource.com/product/max-mara-cotton-sweater/WZPu0snnfAAB62zc
 [ADD] - <website> - https://www.lyst.co.uk/clothing/moncler-albizia-fur-trimmed-quilted-down-coat/
 
 [IMPROVE] - <image> - https://www.lyst.com/clothing/moncler-albizia-down-puffer-coat-with-genuine-fox-fur-trim-1/
+
+[IMPROVE] - <image> - https://www.lyst.com/clothing/veronica-beard-bolton-silk-blouse-black/
+
+[IMPROVE] - <image> - https://www.lyst.com/clothing/veronica-beard-ramsey-wide-leg-high-waist-velvet-tux-pants-1/
+
+[ADD] - <website> - https://www.endource.com/product/coach-shrunken-crew-neck-jumper/VrmhMeSwgWnj0LvV
+
+[IMPROVE] - <image> - https://www.lyst.com/clothing/coach-shrunken-crewneck-sweater-emeraldblack/
+
+[ADD] - <website> - https://www.vince.com/stitch-front-seam-legging-V404121199.html
+
+[ADD] - <website> - https://www.perfectlybasics.nl/shop-the-look-timeless-classic-and-modern-0000010039922029.aspx
+
+[ADD] - <website> - https://www.antonioli.eu/en/CN/women/products/s32aa0130s48106-101
+
+[IMPROVE] - <image> - https://www.lyst.com/clothing/moncler-solanum-quilted-jacket-1/
+
+[ADD] - <website> - https://www.veronicabeard.com/Sebastian-Peplum-Bustier-Cami-2432.html
+
+[ADD] - <website> - https://www.farfetch.cn/us/shopping/women/moncler-albizia-parka-item-12182986.aspx
+
+[ADD] - <website> - https://www.endource.com/product/max-mara-teddy-bear-icon-coat/WdTpacnnfAABxmCS
+
+[ADD] - <website> - http://www.vanessabruno.com/shirts-tops/shirts-tops/all-the-products/silk-heythem-blouse-printed-heather/8045.html
+
+[ADD] - <website> - https://bg.burberry.com/house-check-cottonleather-slip-on-trainers-p40551771
+
+[IMPROVE] - <image> - https://www.modaoperandi.com/alexis-r17/millie-cold-shoulder-lace-blouse
+
+[ADD] - <website> - https://www.brownsfashion.com/uk/shopping/phone-print-hoodie-12479634
+
+[ADD] - <website> - https://www.on-mkt.com/designers/acne-studios?page=3
+
+[ADD] - <website> - http://www.coach.com/coach-military-patch-naval-coat/23152.html
+
+[ADD] - <website> - https://us.maxmara.com/p-1221108106003-harold-china-blue
+
+[ADD] - <website> - https://us.maxmara.com/p-9496017606003-novec-black
