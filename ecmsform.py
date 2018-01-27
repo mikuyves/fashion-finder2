@@ -7,7 +7,7 @@ from IPython import embed
 from secret import vivian, edison
 
 
-ECMS_URL = 'http://ecmsglobal.com/cn/'
+ECMS_URL = 'http://ecmsglobal.com/cn/index.html'
 return_code = input('请输入退运单号：').upper()
 
 person_num = input('1-vivian, 2-edison: ')
