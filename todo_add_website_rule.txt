@@ -52,3 +52,71 @@ https://www.endource.com/product/max-mara-cotton-sweater/WZPu0snnfAAB62zc
 [ADD] - <website> - https://us.maxmara.com/p-1221108106003-harold-china-blue
 
 [ADD] - <website> - https://us.maxmara.com/p-9496017606003-novec-black
+
+[ADD] - <website> - https://www.zimmermannwear.com/lovelorn-floral-flutter-dress-pink-floral.html
+
+[ADD] - <website> - https://www.veronicabeard.com/Greer-Shirt-2560.html
+
+[IMPROVE] - <image> - https://www.gucci.com/us/en/pr/women/womens-ready-to-wear/womens-sweaters-cardigans/lurex-blend-cardigan-with-web-p-411532X5N141815?position=34&listName=PGUS4Cols&categoryPath=Women/Womens-Ready-to-Wear/Womens-Sweaters-Cardigans
+
+[ADD] - <website> - https://www.endource.com/product/the-kooples-cherry-love-wrap-dress/Wo5tw8nnfAABD41U
+
+[IMPROVE] - <image> - http://www.fwrd.com/product-selfportrait-/SPOF-WS20/?d=Womens&itrownum=13&itcurrpage=1&itview=01&list=plp-list-4#
+
+[IMPROVE] - <image> - https://www.gucci.com/us/en/pr/women/womens-ready-to-wear/womens-tops-shirts/embroidered-silk-shirt-p-432944ZHZ989064
+
+[IMPROVE] - <image> - http://www.fwrd.com/product-alexander-wang-turtleneck-sweater-with-ruffle-sleeves/AWAN-WK62/?d=Womens&list=plp-list-5
+
+[IMPROVE] - <image> - https://www.gucci.com/us/en/pr/women/womens-ready-to-wear/womens-sweaters-cardigans/mystic-cat-wool-cashmere-knit-sweater-p-503896X9P266347
+
+[ADD] - <website> - https://www.lyst.co.uk/clothing/balenciaga-logo-print-cotton-jersey-t-shirt-1/?reason=related-product
+
+[IMPROVE] - <image> - https://www.modaoperandi.com/giambattista-valli-ss16/silk-georgette-ruffle-midi-dress
+
+[ADD] - <website> - http://www.alexandermcqueen.com/il/alexandermcqueen/cardigan_cod39749778mu.html
+
+[IMPROVE] - <image> - https://www.modaoperandi.com/ulla-johnson-pf17/sonja-tiered-dress
+
+[IMPROVE] - <image> - https://www.modaoperandi.com/elie-saab-r18/lace-panel-blouse
+
+[ADD] - <website> - https://www.endource.com/product/ganni-montrose-crepe-maxi-dress/WYrsNUzt_QABc7Qd
+
+[IMPROVE] - <image> - https://www.gucci.com/us/en/pr/men/mens-ready-to-wear/mens-t-shirts-polos/gucci-cities-cotton-t-shirt-p-493117X3M227561?position=3&listName=PGUS4Cols&categoryPath=Men/Mens-Ready-To-Wear/Mens-T-shirts-Polos
+
+[IMPROVE] - <image> - https://www.gucci.com/us/en/pr/women/womens-ready-to-wear/womens-sweatshirts-t-shirts/snow-white-and-witch-print-t-shirt-p-492347X3M947550?position=29&listName=PGUS4Cols&categoryPath=Women/Womens-Ready-to-Wear/Womens-Sweatshirts-T-shirts
+
+[IMPROVE] - <image> - https://www.theoutnet.com/en-au/shop/product/long-sleeved_cod13331180551998977.html#dept=INTL_Tibi_DESIGNERS
+
+[IMPROVE] - <image> - https://www.gucci.com/us/en/pr/women/womens-ready-to-wear/womens-sweatshirts-t-shirts/mystic-cat-and-guccy-print-t-shirt-p-492347X3L415263
+
+[IMPROVE] - <image> - https://www.modaoperandi.com/anna-quan-r18/lucy-button-shirt-dress
+
+[IMPROVE] - <image> - https://www.gucci.com/it/it/pr/women/womens-ready-to-wear/womens-dresses/wool-silk-dress-with-velvet-trim-p-494948ZKK375940?position=28&listName=PGEU4Cols&categoryPath=Women/Womens-Ready-to-Wear/Womens-Dresses
+
+[ADD] - <website> - https://www.farfetch.cn/uk/shopping/women/delpozo-structured-sleeve-shirt-item-12099017.aspx
+
+[IMPROVE] - <image> - https://www.modaoperandi.com/no-21-ss17/helena-pleated-wrap-skirt
+
+[IMPROVE] - <image> - https://www.modaoperandi.com/no-21-ss17/anica-midi-length-dress
+
+[IMPROVE] - <image> - https://www.modaoperandi.com/red-valentino-pf16/ruffle-front-silk-georgette-dress
+
+[ADD] - <website> - https://www.veronicabeard.com/Ashlynn-Blouse-2773.html
+
+[BAN] - <website> - https://www.matchesfashion.com/us/products/Dolce-%26-Gabbana-Broad-bean-print-square-neck-dress-1204663
+
+[BAN] - <website> - https://www.matchesfashion.com/products/Dolce-%26-Gabbana-Broad-bean-print-square-neck-dress-1204663
+
+[ADD] - <website> - https://www.lyst.co.uk/clothing/balenciaga-multi-logo-t-shirt-1/
+
+[IMPROVE] - <image> - https://www.lyst.com/clothing/ganni-roseburg-floral-patterned-crepe-shirt/
+
+[IMPROVE] - <image> - https://www.modaoperandi.com/dolce-gabbana-ss17/stretch-charmeuse-rose-dress
+
+[BAN] - <website> - https://www.matchesfashion.com/us/products/Weekend-Max-Mara-Arabba-dress-1179940
+
+[ADD] - <website> - https://www.endource.com/product/the-kooples-top-with-fancywork-details/Wp47oc_0fgAB0lWv
+
+[IMPROVE] - <image> - https://www.lyst.com/clothing/theory-embroidered-button-front-shirt/?reason=related-product
+
+[IMPROVE] - <image> - https://www.lyst.com/clothing/elie-tahari-bowen-crinkle-texture-blouse-with-lace-back/
