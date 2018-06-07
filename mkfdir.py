@@ -44,15 +44,12 @@ email_filepath.write_text(fullname, errors='replace')
 print('Made a gml file for sending emails.')
 
 filepath = folderpath / ('%s.txt' % base_filename)
-filepath.write_text(title, errors='replace')
-
-with open(str(folderpath) + '/%s.txt' % base_filename, mode='a', errors='replace') as f:
-    f.write(
+filepath.write_text(
 '''{fullname}
 
 {desc}
 
 {url}
-'''.format(**locals())
-    )
+'''.format(**locals()), errors='replace')
+
 print('Made a txt file for item content.')
