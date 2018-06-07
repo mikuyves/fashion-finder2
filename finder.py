@@ -311,7 +311,7 @@ class Fashion(object):
                 return
         gevent.joinall([
             gevent.spawn(self.download),
-            gevent.spawn(self.get_screenshot),
+            # gevent.spawn(self.get_screenshot),
             gevent.spawn(self.save_file),
             gevent.spawn(self.make_tag_file)
         ], timeout=120)
